@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ant-color-primary: #0d72ff;
+}
+/* Fix Tailwind Preflight breaking AntD buttons */
+.ant-btn-primary {
+  background-color: var(--ant-color-primary) !important;
+  color: #fff;
+}
+
+
