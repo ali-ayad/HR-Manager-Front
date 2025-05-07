@@ -80,7 +80,7 @@ const Page1 = () => {
   ];
 
   return (
-    <div className="p-10 bg-white rounded-md  ">
+    <div className="p-10  rounded-md  ">
       <div className="flex justify-between items-center mb-4">
         <Title level={3}>HR Employee Dashboard</Title>
         <EmployeeModal type="add" />

@@ -4,7 +4,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/
 import { Navigate, useNavigate } from 'react-router-dom';
 import BreadcrumbNav from '../Breadcrumb';
 import { useDispatch, useSelector } from "react-redux";
-import { Switch } from "antd";
+import { SunOutlined, MoonOutlined } from '@ant-design/icons';
 import { toggleTheme } from "../../../Store/them/themeSlice";
 
 const { Header } = Layout;
@@ -41,19 +41,25 @@ const Navbar = ({ collapsed, toggleCollapse, colorBgContainer }) => {
     style={{ background: colorBgContainer }}
   >
      <BreadcrumbNav />
-  
+     <div className='flex justify-center items-center gap-3'>
+     <Button
+      
+      shape="circle"
+      icon={mode === 'dark' ? <MoonOutlined /> : <SunOutlined />}
+      onClick={() => dispatch(toggleTheme())}
+      size="medium"
+     
+    />
       <Dropdown menu={menu} placement="bottom" trigger={['click']}>
         {/* ✅ Only one direct child element allowed */}
-        <div style={{ cursor: 'pointer' }}>
+        <div style={{ cursor: 'pointer' }} >
+      
           <Avatar style={{ backgroundColor: '#1890ff' }} icon={<UserOutlined />} />
-          <Switch
-        checked={mode === "dark"}
-        onChange={() => dispatch(toggleTheme())}
-        checkedChildren="🌙"
-        unCheckedChildren="☀️"
-      />
+        
         </div>
       </Dropdown>
+    
+      </div>
      
     </Header>
   );
