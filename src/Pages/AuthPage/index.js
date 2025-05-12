@@ -1,7 +1,8 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, message, Card, Typography } from 'antd';
+import { Form, Input, Button, Checkbox, Card, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useAuth } from '../../Components/hooks/useAuth'; // Adjust the path based on your project structure
+import { useAuth } from '../../Components/hooks/useAuth';
+import ParticlesBackground from './ParticlesBackground';
 
 const { Title } = Typography;
 
@@ -10,77 +11,53 @@ const LoginPage = () => {
   const { login, loading } = useAuth();
 
   const handleLogin = async (values) => {
-    await login(values); // your real API login logic
+    await login(values);
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        background: '#f0f2f5',
-      }}
-    >
-      <Card
-        style={{ width: 400 }}
-        title={<Title level={3}>Login</Title>}
-        bordered={false}
+    <div >
+     
+
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 1,
+        }}
       >
-        <Form
-          form={form}
-          name="login"
-          initialValues={{ remember: true }}
-          onFinish={handleLogin}
-        >
-          <Form.Item
-            name="email"
-            rules={[{ required: true, message: 'Please input your Username!' }]}
-          >
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="email"
-              autoComplete="off"
-            />
-          </Form.Item>
+        <Card style={{ width: 400 }} title={<Title level={3}>Login</Title>} bordered={false}>
+          <Form form={form} name="login" initialValues={{ remember: true }} onFinish={handleLogin}>
+            <Form.Item
+              name="email"
+              rules={[{ required: true, message: 'Please input your Username!' }]}
+            >
+              <Input prefix={<UserOutlined />} placeholder="Email" autoComplete="off" />
+            </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined />}
-              placeholder="Password"
-            />
-          </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: 'Please input your Password!' }]}
+            >
+              <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+            </Form.Item>
 
-          <Form.Item>
-           
+            <Form.Item>
               <Checkbox>Remember me</Checkbox>
-           
+              <a href="/forgot-password" style={{ float: 'right' }} onClick={(e) => e.preventDefault()}>
+                Forgot password?
+              </a>
+            </Form.Item>
 
-            <a
-              href="/forgot-password"
-              style={{ float: 'right' }}
-              onClick={(e) => e.preventDefault()}
-            >
-              Forgot password?
-            </a>
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              loading={loading}
-            >
-              Log in
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" block loading={loading}>
+                Log in
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </div>
     </div>
   );
 };

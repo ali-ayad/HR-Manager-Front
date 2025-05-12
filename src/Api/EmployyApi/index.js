@@ -5,9 +5,15 @@ export const employeeApi = api.injectEndpoints({
   endpoints: (build) => ({
     // 1. Get All Employees
     getEmployees: build.query({
-      query: () => ({
+      query: ({ page, limit, search }) => ({
         url: "employees", // Example: GET /Employee
         method: "GET",
+         params: {
+          page,
+          limit,
+          search,
+        
+        },
       }),
       providesTags: ["Employee"],
     }),

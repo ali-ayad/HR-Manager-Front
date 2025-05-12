@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import {
   Table,
   Button,
- 
   Typography,
   Popconfirm,
   Space,
+  Input,
 } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 
 import {
   useDeleteEmployeeMutation,
@@ -19,18 +19,23 @@ import { App } from "antd";
 const { Title } = Typography;
 
 const Page1 = () => {
- 
+  const [searchEmploye, setSearchEmploye] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+
   const { message } = App.useApp();
 
-  const { data: employees, isLoading } = useGetEmployeesQuery();
-  const [deleteEmployee] = useDeleteEmployeeMutation();
+  const { data: employees, isLoading } = useGetEmployeesQuery({
+    page,
+    limit,
+    search: searchEmploye,
+  });
 
-  console.log(employees);
-  if (isLoading) return <div>Loading...</div>;
+  const [deleteEmployee] = useDeleteEmployeeMutation();
 
   const dataSource =
     employees?.employees.map((emp, index) => ({
-      key: emp.id || index, // Always add a key for each item
+      key: emp.id || index,
       id: emp.id,
       name: emp.name,
       email: emp.email,
@@ -38,16 +43,15 @@ const Page1 = () => {
       department: emp.department,
       phone: emp.phone,
       address: emp.address,
-      // Add more fields as needed
     })) || [];
 
   const handleDelete = async (id) => {
     try {
       await deleteEmployee(id).unwrap();
-      message.success("Employee deleted successfully."); // Show success message
+      message.success("Employee deleted successfully.");
     } catch (error) {
       console.error("Failed to delete the employee:", error);
-      message.error("Failed to delete the employee. Please try again."); // Show error message
+      message.error("Failed to delete the employee. Please try again.");
     }
   };
 
@@ -79,26 +83,45 @@ const Page1 = () => {
     },
   ];
 
+  const handleSearchChange = (e) => {
+    setSearchEmploye(e.target.value);
+    setPage(1); // Reset to first page on search
+  };
+
   return (
-    <div className="p-10  rounded-md  ">
-      <div className="flex justify-between items-center mb-4">
-        <Title level={3}>HR Employee Dashboard</Title>
-        <EmployeeModal type="add" />
+    <div className="p-10 rounded-md">
+      <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
+        <Title level={3} className="m-0">
+          HR Employee Dashboard
+        </Title>
+
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="بحث"
+            onChange={(e) => setSearchEmploye(e.target.value)}
+            prefix={<SearchOutlined className="text-gray-400 w-4 h-4" />}
+            className="w-full "
+          />
+          <EmployeeModal type="add" />
+        </div>
       </div>
 
       <Table
+        loading={isLoading}
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          pageSize: 5,
-          style: { textAlign: "center" }, // Center the pagination
+          current: page,
+          pageSize: limit,
+          total: employees?.totalEmployees || 0,
+          onChange: (newPage) => setPage(newPage),
+          showSizeChanger: false,
+          style: { textAlign: "center" },
         }}
         bordered
-        scroll={{ x: "max-content" }} // Make the table horizontally scrollable on small screens
-        responsive // Automatically adjust table for different screen sizes
+        scroll={{ x: "max-content" }}
+        responsive
       />
-
-    
     </div>
   );
 };
