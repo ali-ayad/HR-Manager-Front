@@ -8,6 +8,7 @@ import NotFoundPage from './Pages/NotFoundPage';
 const Page1 = lazy(() => import('./Pages/EmployePage/index'));
 const Page2 = lazy(() => import('./Pages/AuthPage/index'));
 const LoginPage=lazy(()=>import('./Pages/AuthPage/index'))
+const Tasks=lazy(()=>import('./Pages/TasksPage/index'))
 
 const App = () => {
   return (
@@ -33,6 +34,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Page1 />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/Tasks"
+            element={
+              <PrivateRoute>
+                <Tasks />
               </PrivateRoute>
             }
           />
