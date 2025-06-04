@@ -1,22 +1,17 @@
-export const Authentication = async (values) => {
-  try {
-    const response = await fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+// src/api/authApi.js
+import { api } from "../MainApi"; // Assuming api is already configured with baseUrl
 
-    const data = await response.json();
+export const authApi = api.injectEndpoints({
+  endpoints: (build) => ({
+    authenticate: build.mutation({
+      query: (credentials) => ({
+        url: "login", // POST /api/login
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+  }),
+  overrideExisting: false,
+});
 
-    if (response.ok && data.token) {
-      localStorage.setItem("authToken", data.token); // or any key you'd prefer
-    }
-
-    return { data };
-  } catch (error) {
-    console.error("API Error:", error);
-    throw error;
-  }
-};
+export const { useAuthenticateMutation } = authApi;
