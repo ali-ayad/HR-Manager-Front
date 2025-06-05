@@ -1,10 +1,9 @@
-// src/components/BreadcrumbNav.jsx
-import React from 'react';
 import { Breadcrumb } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 
 const breadcrumbNameMap = {
-  '/': 'Employees',  // ✅ Home route mapped to "Employees"
+  '/': 'Employees',  
+  '/Tasks': 'Tasks',  
   '/employees/add': 'Add Employee',
   '/employees/edit': 'Edit Employee',
   '/departments': 'Departments',

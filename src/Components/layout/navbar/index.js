@@ -17,7 +17,8 @@ const Navbar = ({ collapsed, toggleCollapse, colorBgContainer }) => {
   const mode = useSelector((state) => state.theme.mode);
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Clear the token
+    localStorage.removeItem("accessToken"); // Clear the token
+    localStorage.removeItem("refreshToken"); // Clear the token
     message.success("تم تسجيل الخروج بنجاح"); // Optional: success message
     navigate("/login"); // Redirect to login
   };

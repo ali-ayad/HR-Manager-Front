@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import MainContainer from '../layout/MainContainer';
 
 const isAuthenticated = () => {
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("accessToken");
   return !!token;
 };
 
