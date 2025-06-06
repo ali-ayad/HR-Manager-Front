@@ -2,8 +2,9 @@ import { Breadcrumb } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 
 const breadcrumbNameMap = {
-  '/': 'Employees',  
-  '/Tasks': 'Tasks',  
+  '/': 'Dashboard',  
+  '/Employee': 'Employee',  
+  '/tasks': 'Tasks',  
   '/employees/add': 'Add Employee',
   '/employees/edit': 'Edit Employee',
   '/departments': 'Departments',

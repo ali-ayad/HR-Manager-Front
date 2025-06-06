@@ -5,10 +5,11 @@ import { Spin } from 'antd';
 import NotFoundPage from './Pages/NotFoundPage';
 
 // Lazy load your pages
-const Page1 = lazy(() => import('./Pages/EmployePage/index'));
+const Employee = lazy(() => import('./Pages/EmployePage/index'));
 const Page2 = lazy(() => import('./Pages/AuthPage/index'));
 const LoginPage=lazy(()=>import('./Pages/AuthPage/index'))
 const Tasks=lazy(()=>import('./Pages/TasksPage/index'))
+const Dashboard=lazy(()=>import('./Pages/Dashboard/index'))
 
 const App = () => {
   return (
@@ -30,10 +31,18 @@ const App = () => {
             }
           />
           <Route
+            path="/Employee"
+            element={
+              <PrivateRoute>
+                <Employee />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/"
             element={
               <PrivateRoute>
-                <Page1 />
+                <Dashboard />
               </PrivateRoute>
             }
           />
