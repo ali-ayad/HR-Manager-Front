@@ -6,6 +6,7 @@ import NotFoundPage from './Pages/NotFoundPage';
 
 // Lazy load your pages
 const Employee = lazy(() => import('./Pages/EmployePage/index'));
+const Departments = lazy(() => import('./Pages/DepartmentPage/index'));
 const Page2 = lazy(() => import('./Pages/AuthPage/index'));
 const LoginPage=lazy(()=>import('./Pages/AuthPage/index'))
 const Tasks=lazy(()=>import('./Pages/TasksPage/index'))
@@ -30,7 +31,16 @@ const App = () => {
               
             }
           />
+        
           <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+            <Route
             path="/Employee"
             element={
               <PrivateRoute>
@@ -38,11 +48,11 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/"
+            <Route
+            path="/departments"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <Departments />
               </PrivateRoute>
             }
           />

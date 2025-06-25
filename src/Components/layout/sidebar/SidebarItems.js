@@ -1,16 +1,17 @@
 import {
   UserOutlined,
   VideoCameraOutlined,
-  UploadOutlined,
-  CarryOutOutlined,
-  DashboardOutlined,
+  BankOutlined  ,
+  CheckSquareOutlined,
+  AppstoreOutlined,
+
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 const SidebarItems = [
   {
     key: '1',
-    icon: <DashboardOutlined />,
+    icon: <AppstoreOutlined />,
     label: <Link to="/">Dashboard</Link>,
   },
    {
@@ -18,9 +19,14 @@ const SidebarItems = [
     icon: <UserOutlined />,
     label: <Link to="/Employee">Employee</Link>,
   },
-  {
+   {
     key: '3',
-    icon: <CarryOutOutlined />,
+    icon: <BankOutlined    />,
+    label: <Link to="/Departments">Departments</Link>,
+  },
+  {
+    key: '4',
+    icon: <CheckSquareOutlined />,
     label: <Link to="/tasks">Tasks</Link>,
   },
  
