@@ -7,7 +7,7 @@ const breadcrumbNameMap = {
   '/tasks': 'Tasks',  
   '/employees/add': 'Add Employee',
   '/employees/edit': 'Edit Employee',
-  '/departments': 'Departments',
+  '/Departments': 'Departments',
   // Add additional mappings as necessary
 };
 

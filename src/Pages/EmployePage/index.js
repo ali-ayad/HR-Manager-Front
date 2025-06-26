@@ -40,11 +40,11 @@ const Page1 = () => {
       name: emp.name,
       email: emp.email,
       position: emp.position,
-      department: emp.department,
+      department: emp.Department.name,
       phone: emp.phone,
       address: emp.address,
     })) || [];
-
+    console.log( employees?.employees)
   const handleDelete = async (id) => {
     try {
       await deleteEmployee(id).unwrap();

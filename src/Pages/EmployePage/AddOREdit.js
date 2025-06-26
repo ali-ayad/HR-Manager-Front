@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Input } from 'antd';
-import { PlusOutlined, EditOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Button, Modal, Form, Input, Select } from "antd";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import { App } from "antd";
 
-import { useCreateEmployeeMutation, useUpdateEmployeeMutation } from '../../Api/EmployyApi/index';
+import {
+  useCreateEmployeeMutation,
+  useGetEmployeesQuery,
+  useUpdateEmployeeMutation,
+} from "../../Api/EmployyApi/index";
+import { useGetDepartmentsQuery } from "../../Api/DepartmentsApi";
 
 const EmployeeModal = ({ type, initialValues }) => {
   const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
   const { message } = App.useApp();
 
+  const isEdit = type === "edit";
 
-  const isEdit = type === 'edit';
+  const { data: employees, isLoading } = useGetDepartmentsQuery({
+    page: 1,
+    limit: 10,
+    search: "",
+  });
+
+  console.log(employees);
 
   const [createEmployee, { isLoading: creating }] = useCreateEmployeeMutation();
   const [updateEmployee, { isLoading: updating }] = useUpdateEmployeeMutation();
@@ -27,31 +39,29 @@ const EmployeeModal = ({ type, initialValues }) => {
 
       if (isEdit) {
         await updateEmployee({ id: initialValues.id, ...values }).unwrap();
-        message.success('Employee updated successfully.');
+        message.success("Employee updated successfully.");
       } else {
         await createEmployee(values).unwrap();
-        message.success('Employee added successfully.');
+        message.success("Employee added successfully.");
       }
 
       form.resetFields();
       setVisible(false);
     } catch (error) {
-      console.error('Operation failed:', error);
-      message.error('Something went wrong. Please try again.');
+      console.error("Operation failed:", error);
+      message.error("Something went wrong. Please try again.");
     }
   };
 
   return (
     <>
-    
-        <Button
-          type={isEdit ? "default" : "primary"}
-          icon={isEdit ? <EditOutlined /> : <PlusOutlined />}
-          onClick={showModal}
-        >
-          {isEdit ? "Edit " : "Add Employee"}
-        </Button>
-    
+      <Button
+        type={isEdit ? "default" : "primary"}
+        icon={isEdit ? <EditOutlined /> : <PlusOutlined />}
+        onClick={showModal}
+      >
+        {isEdit ? "Edit " : "Add Employee"}
+      </Button>
 
       <Modal
         title={isEdit ? "Edit Employee" : "Add Employee"}
@@ -66,7 +76,7 @@ const EmployeeModal = ({ type, initialValues }) => {
           <Form.Item
             name="name"
             label="Full Name"
-            rules={[{ required: true, message: 'Please enter the full name!' }]}
+            rules={[{ required: true, message: "Please enter the full name!" }]}
           >
             <Input placeholder="Enter full name" />
           </Form.Item>
@@ -74,25 +84,45 @@ const EmployeeModal = ({ type, initialValues }) => {
           <Form.Item
             name="position"
             label="Position"
-            rules={[{ required: true, message: 'Please enter the position!' }]}
+            rules={[{ required: true, message: "Please enter the position!" }]}
           >
             <Input placeholder="Enter position" />
           </Form.Item>
-
           <Form.Item
-            name="department"
-            label="Department"
-            rules={[{ required: true, message: 'Please enter the department!' }]}
+            name="departmentId"
+            label="department"
+            rules={[
+              { required: true, message: "Please enter the departmentId!" },
+            ]}
           >
-            <Input placeholder="Enter department" />
+            <Select
+              placeholder="Select department"
+              loading={isLoading}
+              allowClear
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {employees?.map((emp) =>
+              
+                  <Select.Option
+                    key={emp.id}
+                    value={emp.id}
+                  >
+                    {emp.name}
+                  </Select.Option>
+               
+              )}
+            </Select>
           </Form.Item>
-
           <Form.Item
             name="email"
             label="Email"
             rules={[
-              { required: true, message: 'Please enter the email!' },
-              { type: 'email', message: 'Please enter a valid email!' },
+              { required: true, message: "Please enter the email!" },
+              { type: "email", message: "Please enter a valid email!" },
             ]}
           >
             <Input placeholder="Enter email" />
@@ -101,7 +131,9 @@ const EmployeeModal = ({ type, initialValues }) => {
           <Form.Item
             name="phone"
             label="Phone"
-            rules={[{ required: true, message: 'Please enter the phone number!' }]}
+            rules={[
+              { required: true, message: "Please enter the phone number!" },
+            ]}
           >
             <Input placeholder="Enter phone number" />
           </Form.Item>
@@ -109,7 +141,7 @@ const EmployeeModal = ({ type, initialValues }) => {
           <Form.Item
             name="address"
             label="Address"
-            rules={[{ required: true, message: 'Please enter the address!' }]}
+            rules={[{ required: true, message: "Please enter the address!" }]}
           >
             <Input placeholder="Enter address" />
           </Form.Item>
