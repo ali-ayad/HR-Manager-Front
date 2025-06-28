@@ -44,7 +44,7 @@ const Page1 = () => {
       phone: emp.phone,
       address: emp.address,
     })) || [];
-    console.log( employees?.employees)
+  
   const handleDelete = async (id) => {
     try {
       await deleteEmployee(id).unwrap();

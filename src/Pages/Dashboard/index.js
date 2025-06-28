@@ -6,7 +6,7 @@ import {
   ClockCircleOutlined,
   LineChartOutlined,
 } from '@ant-design/icons';
-// import { Bar, Line } from '@ant-design/charts';
+
 
 const { Title, Text } = Typography;
 
@@ -106,50 +106,6 @@ const DashboardPage = () => {
         ))}
       </Row>
 
-      {/* Charts Section */}
-    {/* <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
-  <Col xs={24} md={12}>
-    <Card
-      title="Task Completion by Department"
-      bordered={false}
-      style={{ borderRadius: 10, height: '100%' }}
-      bodyStyle={{ padding: 16 }}
-    >
-      <div style={{ width: '100%' }}>
-        <Bar
-          data={barData}
-          xField="tasks"
-          yField="department"
-          autoFit
-          height={300}
-          padding="auto"
-          color="#1677ff"
-        />
-      </div>
-    </Card>
-  </Col>
-  <Col xs={24} md={12}>
-    <Card
-      title="Employee Attendance (Last 7 Days)"
-      bordered={false}
-      style={{ borderRadius: 10, height: '100%' }}
-      bodyStyle={{ padding: 16 }}
-    >
-      <div style={{ width: '100%' }}>
-        <Line
-          data={lineData}
-          xField="date"
-          yField="value"
-          autoFit
-          smooth
-          height={300}
-          padding="auto"
-          color="#52c41a"
-        />
-      </div>
-    </Card>
-  </Col>
-</Row> */}
 
     </div>
   );

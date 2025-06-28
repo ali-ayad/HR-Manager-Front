@@ -7,67 +7,57 @@ import {
   Space,
   Input,
   Tag,
+  message,
 } from "antd";
 import {
   DeleteOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import TaskModal from "./AddOREdit";
+import {
+  useDeleteTaskMutation,
+  useGetTasksQuery,
+} from "../../Api/TasksApi";
 
 const { Title } = Typography;
 
 const TasksPage = () => {
   const [searchTask, setSearchTask] = useState("");
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const [limit] = useState(5);
 
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Setup project repo",
-      status: "Pending",
-      employee: "Ali Kareem",
-    },
-    {
-      id: 2,
-      title: "Design login form",
-      status: "In Progress",
-      employee: "Mona Ahmed",
-    },
-    {
-      id: 3,
-      title: "Connect database",
-      status: "Completed",
-      employee: "Sami Hussein",
-    },
-  ]);
+  const { data, isLoading, refetch } = useGetTasksQuery({
+    page,
+    limit,
+    search: searchTask,
+  });
+console.log(data)
+  const [deleteTask] = useDeleteTaskMutation();
 
-  const handleDelete = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
-
-  const handleAddOrEdit = (values, editId) => {
-    if (editId) {
-      setTasks((prev) =>
-        prev.map((task) =>
-          task.id === editId ? { ...task, ...values } : task
-        )
-      );
-    } else {
-      const newId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 1;
-      setTasks([...tasks, { id: newId, ...values }]);
+  const handleDelete = async (id) => {
+    try {
+      await deleteTask(id).unwrap();
+      message.success("Task deleted successfully");
+      refetch();
+    } catch (error) {
+      message.error("Failed to delete task");
     }
   };
-
-  const filteredTasks = tasks.filter((task) =>
-    task.title.toLowerCase().includes(searchTask.toLowerCase())
-  );
 
   const statusColors = {
     Pending: "orange",
     "In Progress": "blue",
     Completed: "green",
   };
+  const dataSource =
+  data?.tasks?.map((task, index) => ({
+    key: task.id || index,
+    id: task.id,
+    title: task.title,
+    status: task.status,
+    employee: typeof task.Employee === "string" ? task.Employee : task.Employee?.name || "N/A",
+  })) || [];
+
 
   const columns = [
     { title: "Task Title", dataIndex: "title", key: "title" },
@@ -75,6 +65,8 @@ const TasksPage = () => {
       title: "Employee",
       dataIndex: "employee",
       key: "employee",
+      render: (emp) =>
+        typeof emp === "string" ? emp : emp?.name || "N/A",
     },
     {
       title: "Status",
@@ -92,7 +84,7 @@ const TasksPage = () => {
           <TaskModal
             type="edit"
             initialValues={record}
-            onSave={(values) => handleAddOrEdit(values, record.id)}
+            onSuccess={refetch}
           />
           <Popconfirm
             title="Are you sure to delete this task?"
@@ -119,25 +111,23 @@ const TasksPage = () => {
         <div className="flex items-center gap-2">
           <Input
             placeholder="Search Tasks"
+            value={searchTask}
             onChange={(e) => setSearchTask(e.target.value)}
             prefix={<SearchOutlined className="text-gray-400 w-4 h-4" />}
             className="w-full"
           />
-          <TaskModal
-            type="add"
-            onSave={(values) => handleAddOrEdit(values)}
-          />
+          <TaskModal type="add" onSuccess={refetch} />
         </div>
       </div>
 
       <Table
-        loading={false}
-        dataSource={filteredTasks.map((t) => ({ key: t.id, ...t }))}
+        loading={isLoading}
+        dataSource={dataSource}
         columns={columns}
         pagination={{
           current: page,
           pageSize: limit,
-          total: filteredTasks.length,
+          total: data?.total || 0,
           onChange: (newPage) => setPage(newPage),
           showSizeChanger: false,
         }}
