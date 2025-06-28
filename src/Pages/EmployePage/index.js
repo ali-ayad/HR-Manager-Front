@@ -41,6 +41,7 @@ const Page1 = () => {
       email: emp.email,
       position: emp.position,
       department: emp.Department.name,
+      departmentId: emp.Department.id,
       phone: emp.phone,
       address: emp.address,
     })) || [];
@@ -83,10 +84,7 @@ const Page1 = () => {
     },
   ];
 
-  const handleSearchChange = (e) => {
-    setSearchEmploye(e.target.value);
-    setPage(1); // Reset to first page on search
-  };
+ 
 
   return (
     <div className="p-10 rounded-md">
@@ -97,7 +95,7 @@ const Page1 = () => {
 
         <div className="flex items-center gap-2">
           <Input
-            placeholder="بحث"
+            placeholder="Search Employe"
             onChange={(e) => setSearchEmploye(e.target.value)}
             prefix={<SearchOutlined className="text-gray-400 w-4 h-4" />}
             className="w-full "

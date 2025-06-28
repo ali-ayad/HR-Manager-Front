@@ -9,6 +9,7 @@ import { Provider, useSelector } from "react-redux";
 import store from "./Store/index";
 import "antd/dist/reset.css";
 
+
 // ✅ This component will be inside <Provider>
 const ThemedApp = () => {
   const mode = useSelector((state) => state.theme?.mode || "light");

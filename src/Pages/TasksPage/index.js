@@ -55,6 +55,7 @@ console.log(data)
     id: task.id,
     title: task.title,
     status: task.status,
+    employeeId: task.Employee?.id,
     employee: typeof task.Employee === "string" ? task.Employee : task.Employee?.name || "N/A",
   })) || [];
 

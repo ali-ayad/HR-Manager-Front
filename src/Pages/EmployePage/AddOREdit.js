@@ -5,7 +5,6 @@ import { App } from "antd";
 
 import {
   useCreateEmployeeMutation,
-  useGetEmployeesQuery,
   useUpdateEmployeeMutation,
 } from "../../Api/EmployyApi/index";
 import { useGetDepartmentsQuery } from "../../Api/DepartmentsApi";
@@ -23,7 +22,6 @@ const EmployeeModal = ({ type, initialValues }) => {
     search: "",
   });
 
-  console.log(employees);
 
   const [createEmployee, { isLoading: creating }] = useCreateEmployeeMutation();
   const [updateEmployee, { isLoading: updating }] = useUpdateEmployeeMutation();

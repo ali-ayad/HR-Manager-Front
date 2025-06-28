@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
   --ant-color-primary: #0d72ff;
 }
@@ -12,3 +14,21 @@
 }
 
 
+/* Force line colors in Tremor LineChart */
+.tremor-chart-line path {
+  stroke: #4f46e5 !important; /* Indigo 600 */
+}
+
+/* Force donut chart slice colors */
+.tremor-donut-chart .tremor-donut-segment:nth-child(1) {
+  fill: #22c55e !important; /* Emerald 500 */
+}
+.tremor-donut-chart .tremor-donut-segment:nth-child(2) {
+  fill: #f59e0b !important; /* Amber 500 */
+}
+.tremor-donut-chart .tremor-donut-segment:nth-child(3) {
+  fill: #f43f5e !important; /* Rose 500 */
+}
+.tremor-donut-chart .tremor-donut-segment:nth-child(4) {
+  fill: #3b82f6 !important; /* Blue 500 */
+}
